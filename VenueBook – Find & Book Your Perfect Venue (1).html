@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VenueBook – Find & Book Your Perfect Venue</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f1b33;--navy2:#1b2c52;--gold:#c9a96a;--gold2:#e6d2a2;--beige:#f6efe3;--ink:#1d2740;--mut:#6b7488;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;font-family:Jost,system-ui,sans-serif;color:var(--ink);background:#fff;line-height:1.55}
+h1,h2,h3,.serif{font-family:"Cormorant Garamond",Georgia,serif;margin:0;line-height:1.1}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit}
+img,svg{max-width:100%}
+.wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+nav{position:sticky;top:0;z-index:20;background:rgba(15,27,51,.96);backdrop-filter:blur(8px);color:#fff}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{display:flex;align-items:center;gap:10px;cursor:pointer}
+.logo b{font:700 26px "Cormorant Garamond",serif;letter-spacing:.5px}
+.logo b i{color:var(--gold);font-style:normal}
+.links{display:flex;gap:22px;align-items:center;font-size:15px}
+.links a{opacity:.85;cursor:pointer;padding:6px 0;border-bottom:2px solid transparent;transition:.2s}
+.links a:hover,.links a.on{opacity:1;border-color:var(--gold)}
+#burger{display:none;background:none;border:0;color:#fff;font-size:26px}
+.btn{display:inline-block;border:0;cursor:pointer;border-radius:999px;padding:11px 24px;font-weight:600;background:var(--gold);color:var(--navy);transition:.2s}
+.btn:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 8px 20px rgba(201,169,106,.4)}
+.btn.o{background:none;border:1.5px solid var(--navy);color:var(--navy)}
+.btn.o:hover{background:var(--navy);color:#fff}
+.btn.sm{padding:8px 16px;font-size:14px}.btn.red{background:#b84a4a;color:#fff}
+.hero{position:relative;background:linear-gradient(160deg,var(--navy) 0%,#243a6b 100%);color:#fff;overflow:hidden;padding:84px 0 150px}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(201,169,106,.35),transparent 45%),radial-gradient(circle at 10% 90%,rgba(201,169,106,.18),transparent 40%)}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(40px,6vw,76px);font-weight:700}
+.hero h1 span{color:var(--gold)}
+.hero p{font-size:19px;opacity:.85;max-width:480px;margin:18px 0 28px}
+.mosaic{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mosaic .ph{border-radius:20px;overflow:hidden;height:190px;box-shadow:0 20px 40px rgba(0,0,0,.35);animation:fl 6s ease-in-out infinite}
+.mosaic .ph:nth-child(2){transform:translateY(30px);animation-delay:-2s}.mosaic .ph:nth-child(3){animation-delay:-4s}
+.mosaic .ph:nth-child(4){transform:translateY(30px);animation-delay:-1s}
+@keyframes fl{50%{translate:0 -10px}}
+.ph svg,.ph img{width:100%;height:100%;display:block;object-fit:cover}
+.search{position:relative;margin:-70px auto 0;background:#fff;border-radius:22px;box-shadow:0 20px 50px rgba(15,27,51,.18);padding:20px;display:grid;grid-template-columns:repeat(4,1fr) auto;gap:12px;z-index:2}
+label{font-size:13px;color:var(--mut);display:block;margin-bottom:4px}
+input,select,textarea{width:100%;padding:11px 13px;border:1.5px solid #e3dccd;border-radius:12px;background:#fff;color:var(--ink)}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+section{padding:70px 0}.beige{background:var(--beige)}
+.title{text-align:center;margin-bottom:38px}.title h2{font-size:clamp(32px,4vw,48px);color:var(--navy)}
+.title p{color:var(--mut);margin:8px 0 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:24px}
+.card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 6px 24px rgba(15,27,51,.09);transition:.3s;position:relative}
+.card:hover{transform:translateY(-6px);box-shadow:0 16px 36px rgba(15,27,51,.16)}
+.card .ph{height:190px}.card .bd{padding:16px 18px 18px}
+.card h3{font-size:24px;color:var(--navy)}.loc,.mut{color:var(--mut);font-size:14px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px}
+.price{font:700 22px "Cormorant Garamond",serif;color:var(--navy)}
+.tag{display:inline-block;background:var(--beige);border-radius:999px;padding:3px 10px;font-size:12px;margin:3px 3px 0 0}
+.fav{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.92);font-size:18px;cursor:pointer;transition:.2s}
+.fav:hover{transform:scale(1.15)}
+.badge{position:absolute;top:12px;left:12px;background:var(--navy);color:var(--gold);padding:4px 12px;border-radius:999px;font-size:12px;font-weight:600}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px}
+.cat{background:#fff;border-radius:18px;padding:24px 10px;text-align:center;cursor:pointer;box-shadow:0 4px 16px rgba(15,27,51,.07);transition:.25s;border:1.5px solid transparent}
+.cat:hover{border-color:var(--gold);transform:translateY(-4px)}.cat .e{font-size:38px;display:block;margin-bottom:6px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:24px;text-align:center}
+.step .c{width:68px;height:68px;margin:0 auto 12px;border-radius:50%;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-size:28px;box-shadow:0 0 0 6px var(--gold2)}
+.quote{background:#fff;border-radius:20px;padding:24px;box-shadow:0 6px 24px rgba(15,27,51,.08)}
+.stars{color:var(--gold)}
+footer{background:var(--navy);color:#cfd5e4;padding:50px 0 24px;font-size:15px}
+footer .g{display:grid;grid-template-columns:2fr 1fr 1.5fr;gap:30px}footer h4{color:var(--gold);margin:0 0 10px;font:600 20px "Cormorant Garamond",serif}
+.soc a{display:inline-grid;place-items:center;width:36px;height:36px;border:1px solid var(--gold);border-radius:50%;margin-right:8px;color:var(--gold);font-size:13px}
+.layout{display:grid;grid-template-columns:250px 1fr;gap:28px;align-items:start}
+.side{background:#fff;border-radius:18px;padding:20px;box-shadow:0 6px 24px rgba(15,27,51,.09);position:sticky;top:84px;display:grid;gap:12px}
+.pagehead{background:var(--navy);color:#fff;padding:44px 0;text-align:center}.pagehead h1{font-size:44px}
+.gallery{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:170px 170px;gap:12px}
+.gallery .ph{border-radius:16px;overflow:hidden}.gallery .ph:first-child{grid-row:span 2}
+.two{display:grid;grid-template-columns:1.6fr 1fr;gap:30px;margin-top:30px}
+.box{background:#fff;border-radius:20px;padding:24px;box-shadow:0 6px 24px rgba(15,27,51,.09);margin-bottom:20px}
+.dates{display:flex;flex-wrap:wrap;gap:8px}.d{padding:7px 12px;border-radius:10px;background:var(--beige);font-size:13px}.d.x{opacity:.4;text-decoration:line-through}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:14px}.fg .full{grid-column:1/-1}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:10px 8px;text-align:left;border-bottom:1px solid #eee;vertical-align:top}
+.sw{overflow-x:auto}
+.st{padding:3px 10px;border-radius:999px;font-size:12px;font-weight:600;background:#fff3d6}.st.Approved{background:#d9f2e0}.st.Rejected,.st.Cancelled{background:#f8dcdc}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:20px}
+.stat{background:var(--navy);color:#fff;border-radius:16px;padding:18px}.stat b{display:block;font:700 34px "Cormorant Garamond",serif;color:var(--gold)}
+.conf{max-width:560px;margin:0 auto;text-align:center}.ref{font:700 34px "Cormorant Garamond",serif;color:var(--navy);background:var(--beige);border:2px dashed var(--gold);border-radius:14px;padding:10px;margin:14px 0}
+.tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}.tabs button{border:1.5px solid var(--navy);background:#fff;border-radius:999px;padding:8px 18px;cursor:pointer}.tabs .on{background:var(--navy);color:#fff}
+details{background:#fff;border-radius:14px;padding:14px 18px;margin-bottom:10px;box-shadow:0 4px 14px rgba(15,27,51,.07)}summary{cursor:pointer;font-weight:600}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,120px);background:var(--navy);color:#fff;border-left:4px solid var(--gold);padding:14px 22px;border-radius:12px;transition:.4s;z-index:50;max-width:92%}
+#toast.s{transform:translate(-50%,0)}
+.empty{text-align:center;padding:40px;color:var(--mut)}
+@media(max-width:900px){.hero .wrap,.two,.layout,footer .g{grid-template-columns:1fr}.search{grid-template-columns:1fr 1fr}.side{position:static}.mosaic{display:none}.hero{padding:60px 0 120px}}
+@media(max-width:700px){#burger{display:block}.links{display:none;position:absolute;top:68px;left:0;right:0;background:var(--navy);flex-direction:column;padding:16px;gap:14px}.links.open{display:flex}.search{grid-template-columns:1fr}.fg{grid-template-columns:1fr}.gallery{grid-template-columns:1fr;grid-template-rows:200px 100px 100px}.gallery .ph:first-child{grid-row:auto}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<nav><div class="wrap"><a class="logo" onclick="go('home')"><svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="19" fill="none" stroke="#c9a96a" stroke-width="1.5"/><path d="M9 29V19Q9 9 20 9T31 19V29" fill="none" stroke="#c9a96a" stroke-width="2"/><path d="M14 29V21Q14 15 20 15T26 21V29Z" fill="#c9a96a"/><path d="M20 4l1.6 3.4L25 8l-3.4 1.6L20 13l-1.6-3.4L15 8l3.4-.6z" fill="#e6d2a2"/></svg><b>Venue<i>Book</i></b></a>
+<button id="burger" aria-label="Menu" onclick="document.querySelector('.links').classList.toggle('open')">☰</button>
+<div class="links"><a data-r="home" onclick="go('home')">Home</a><a data-r="venues" onclick="go('venues')">Venues</a><a data-r="bookings" onclick="go('bookings')">My Bookings</a><a data-r="about" onclick="go('about')">About</a><a data-r="contact" onclick="go('contact')">Contact</a><a data-r="admin" onclick="go('admin')">Admin</a><a onclick="go('venues');F.fav=1;draw()">♥ <span id="fc">0</span></a></div></div></nav>
+<main id="app"></main>
+<footer><div class="wrap"><div class="g"><div><div class="logo" style="margin-bottom:10px"><b style="font-size:28px;color:#fff">Venue<i>Book</i></b></div><p>Find &amp; book your perfect venue for weddings, parties, meetings and every celebration across Rajasthan.</p><div class="soc"><a>f</a><a>in</a><a>ig</a><a>x</a></div></div>
+<div><h4>Explore</h4><a onclick="go('venues')">Venues</a><br><a onclick="go('about')">About us</a><br><a onclick="go('contact')">FAQ</a></div>
+<div><h4>Contact</h4>12 MI Road, Jaipur, Rajasthan 302001<br>+91 98765 43210<br>hello@venuebook.in</div></div>
+<p style="text-align:center;margin:30px 0 0;opacity:.6">© 2026 VenueBook. All rights reserved.</p></div></footer>
+<div id="toast"></div>
+<script>
+const CATS=[["Wedding Venues","💍"],["Banquet Halls","🥂"],["Birthday Party Halls","🎈"],["Rooftop Venues","🌇"],["Conference Rooms","💼"],["Farmhouses","🌾"],["Resort Venues","🏝️"],["Outdoor Event Spaces","🌳"]];
+const SLOTS=["Morning (9 AM – 1 PM)","Afternoon (2 PM – 6 PM)","Evening (7 PM – 11 PM)"];
+const EV=["Wedding","Birthday Party","Corporate Meeting","Engagement","College Event","Other"];
+const FAC=["Parking","Catering","Decoration","Air Conditioning","Music / DJ","Wi-Fi","Stage","Bridal Room"];
+const seed=[
+[1,"Royal Palace Grand","Jaipur",0,250000,800,4.9,214,["#f7dca4","#b9566b"],"💍",["Parking","Catering","Decoration","Air Conditioning","Music / DJ","Bridal Room"]],
+[2,"The Golden Banquet","Jaipur",1,90000,400,4.7,156,["#f3e2b3","#7d5a86"],"🥂",["Parking","Catering","Air Conditioning","Music / DJ"]],
+[3,"Balloon Bliss Hall","Jaipur",2,25000,120,4.6,98,["#ffd6e0","#6f7fd1"],"🎈",["Decoration","Music / DJ","Air Conditioning","Catering"]],
+[4,"Skyline Terrace","Udaipur",3,60000,150,4.8,121,["#ffb36b","#2c3f78"],"🌇",["Music / DJ","Catering","Decoration","Parking"]],
+[5,"Summit Conference Hub","Jaipur",4,30000,80,4.5,77,["#cfe0f5","#1d3a6b"],"💼",["Wi-Fi","Air Conditioning","Parking","Stage"]],
+[6,"Green Meadows Farmhouse","Jodhpur",5,80000,300,4.7,102,["#d9efb0","#2f6b4a"],"🌾",["Parking","Catering","Decoration","Music / DJ"]],
+[7,"Lakeview Resort & Spa","Udaipur",6,300000,600,4.9,189,["#ffe3b0","#1f6f8b"],"🏝️",["Parking","Catering","Decoration","Air Conditioning","Music / DJ","Bridal Room"]],
+[8,"Open Sky Gardens","Jaipur",7,45000,500,4.6,88,["#e9f5c9","#3b7a57"],"🌳",["Parking","Catering","Decoration","Music / DJ"]]
+].map(a=>({id:a[0],name:a[1],loc:a[2],type:CATS[a[3]][0],price:a[4],cap:a[5],rating:a[6],rev:a[7],c:a[8],e:a[9],fac:a[10],blocked:[]}));
+const REV=[["Anita S.","Absolutely stunning venue and a very helpful team. Our guests loved it!",5],["Rohit M.","Smooth booking and great value. Setup was ready on time.",5],["Priya K.","Beautiful decor and lovely staff. Would book again.",4]];
+let S;try{S=JSON.parse(localStorage.getItem("vb2"))}catch(e){}
+S=S||{venues:seed,bookings:[],favs:[]};
+const save=()=>{try{localStorage.setItem("vb2",JSON.stringify(S))}catch(e){toast("Storage is full – try a smaller image.")}};
+let F={q:"",loc:"",type:"",price:"",cap:"",fav:0},admin=false,tab="up",vtab="b";
+const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const inr=n=>"₹"+Number(n).toLocaleString("en-IN"),V=id=>S.venues.find(v=>v.id==id);
+const today=()=>new Date().toISOString().slice(0,10);
+function toast(m){const t=$("#toast");t.textContent=m;t.className="s";clearTimeout(toast.t);toast.t=setTimeout(()=>t.className="",3500)}
+function go(r){location.hash=r;scrollTo(0,0)}
+function art(v,i=0){if(v.img)return `<img src="${v.img}" alt="${esc(v.name)}">`;const[a,b]=v.c,g="g"+v.id+"_"+i,s=i%3;
+return `<svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice" role="img" aria-label="${esc(v.name)}"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${s==1?b:a}"/><stop offset="1" stop-color="${s==1?a:b}"/></linearGradient></defs><rect width="400" height="260" fill="url(#${g})"/><circle cx="${s==2?90:310}" cy="62" r="30" fill="#fff" opacity=".85"/><path d="M0 260V205l50-8v-30h50v40l55-6v-62h60v62l60-4v-24h50v28l75 4V260z" fill="#0f1b33" opacity=".38"/><path d="M0 235Q100 205 200 232T400 225V260H0z" fill="#0f1b33" opacity=".5"/><g fill="#fff3c8">${Array.from({length:14},(_,k)=>`<circle cx="${20+k*27}" cy="${28+Math.sin(k)*8}" r="2.6"/>`).join("")}</g><text x="200" y="165" font-size="78" text-anchor="middle">${v.e}</text></svg>`}
+function busy(vid,date,slot){return S.bookings.some(b=>b.vid==vid&&b.date==date&&b.slot==slot&&(b.status=="Pending"||b.status=="Approved"))}
+function dayFull(v,d){return v.blocked.includes(d)||SLOTS.every(s=>busy(v.id,d,s))}
+function vcard(v,badge){const f=S.favs.includes(v.id);return `<div class="card"><div class="ph">${art(v)}</div>${badge?`<span class="badge">${badge}</span>`:""}<button class="fav" aria-label="Favourite" onclick="fav(${v.id})">${f?"❤️":"🤍"}</button><div class="bd"><h3>${esc(v.name)}</h3><div class="loc">📍 ${esc(v.loc)} · ${esc(v.type)}</div><div class="row"><span class="stars">★ ${v.rating}</span><span class="mut">${v.rev} reviews · 👥 up to ${v.cap}</span></div><div>${v.fac.slice(0,4).map(x=>`<span class="tag">${esc(x)}</span>`).join("")}</div><div class="row"><span class="price">${inr(v.price)}<small class="mut"> /event</small></span></div><div class="row"><button class="btn o sm" onclick="go('venue-${v.id}')">View Details</button><button class="btn sm" onclick="go('book-${v.id}')">Book Now</button></div></div></div>`}
+function fav(id){const i=S.favs.indexOf(id);i<0?S.favs.push(id):S.favs.splice(i,1);save();toast(i<0?"Added to favourites":"Removed from favourites");render()}
+const locs=()=>[...new Set(S.venues.map(v=>v.loc))];
+function opts(a,sel,ph){return (ph?`<option value="">${ph}</option>`:"")+a.map(x=>`<option${x==sel?" selected":""}>${esc(x)}</option>`).join("")}
+
+function home(){const t=S.venues.slice().sort((a,b)=>b.rating-a.rating);
+return `<div class="hero"><div class="wrap"><div><div class="logo" style="margin-bottom:22px;gap:12px"><svg width="64" height="64" viewBox="0 0 40 40"><circle cx="20" cy="20" r="19" fill="none" stroke="#c9a96a" stroke-width="1.2"/><path d="M9 29V19Q9 9 20 9T31 19V29" fill="none" stroke="#c9a96a" stroke-width="2"/><path d="M14 29V21Q14 15 20 15T26 21V29Z" fill="#c9a96a"/><path d="M20 4l1.6 3.4L25 8l-3.4 1.6L20 13l-1.6-3.4L15 8l3.4-.6z" fill="#e6d2a2"/></svg><b style="font-size:44px">Venue<i>Book</i></b></div><h1>Find the Perfect Venue for <span>Every Occasion.</span></h1><p>Discover, compare and book beautiful event spaces with ease.</p><button class="btn" onclick="go('venues')">Explore Venues</button></div>
+<div class="mosaic">${[0,3,6,1].map((k,i)=>`<div class="ph">${art(S.venues[k]||S.venues[0],i)}</div>`).join("")}</div></div></div>
+<div class="wrap"><div class="search"><div><label>Location</label><select id="sl">${opts(locs(),"","All locations")}</select></div><div><label>Event type</label><select id="st">${opts(CATS.map(c=>c[0]),"","All types")}</select></div><div><label>Date</label><input type="date" id="sd" min="${today()}"></div><div><label>Guests</label><input type="number" id="sg" min="1" placeholder="e.g. 150"></div><button class="btn" style="align-self:end;height:46px" onclick="hs()">Search</button></div></div>
+<section><div class="wrap"><div class="title"><h2>Featured &amp; Popular Venues</h2><p>Hand-picked spaces loved by our customers</p></div><div class="grid">${t.slice(0,6).map((v,i)=>vcard(v,i<3?"Popular":"Featured")).join("")}</div></div></section>
+<section class="beige"><div class="wrap"><div class="title"><h2>Browse by Category</h2></div><div class="cats">${CATS.map(c=>`<div class="cat" onclick="F.type='${c[0]}';go('venues')"><span class="e">${c[1]}</span><b>${c[0]}</b></div>`).join("")}</div></div></section>
+<section><div class="wrap"><div class="title"><h2>How It Works</h2><p>Book your venue in three easy steps</p></div><div class="steps"><div class="step"><div class="c">🔍</div><h3>Search</h3><p class="mut">Filter by city, event, budget and guests.</p></div><div class="step"><div class="c">📅</div><h3>Pick a date</h3><p class="mut">See live availability and choose a time slot.</p></div><div class="step"><div class="c">✅</div><h3>Get confirmed</h3><p class="mut">Submit your request and receive a booking reference.</p></div></div></div></section>
+<section class="beige"><div class="wrap"><div class="title"><h2>What Our Customers Say</h2></div><div class="grid">${REV.map(r=>`<div class="quote"><div class="stars">${"★".repeat(r[2])}</div><p>“${r[1]}”</p><b>${r[0]}</b></div>`).join("")}</div></div></section>`}
+function hs(){F.loc=$("#sl").value;F.type=$("#st").value;F.cap=$("#sg").value;sessionStorage.vbd=$("#sd").value;go("venues")}
+
+function venues(){const l=locs();return `<div class="pagehead"><h1>Browse Venues</h1></div><section style="padding:36px 0"><div class="wrap layout"><div class="side"><div><label>Search</label><input id="fq" value="${esc(F.q)}" placeholder="Venue or city" oninput="F.q=this.value;draw()"></div><div><label>Location</label><select onchange="F.loc=this.value;draw()">${opts(l,F.loc,"All")}</select></div><div><label>Venue type</label><select onchange="F.type=this.value;draw()">${opts(CATS.map(c=>c[0]),F.type,"All")}</select></div><div><label>Price range</label><select onchange="F.price=this.value;draw()"><option value="">Any</option>${[["0-50000","Under ₹50,000"],["50000-100000","₹50,000 – ₹1,00,000"],["100000-9e9","Above ₹1,00,000"]].map(p=>`<option value="${p[0]}"${F.price==p[0]?" selected":""}>${p[1]}</option>`).join("")}</select></div><div><label>Min. capacity</label><input type="number" min="1" value="${F.cap}" placeholder="Guests" oninput="F.cap=this.value;draw()"></div><label style="display:flex;gap:8px;align-items:center"><input type="checkbox" style="width:auto" ${F.fav?"checked":""} onchange="F.fav=this.checked?1:0;draw()"> Favourites only</label><button class="btn o sm" onclick="F={q:'',loc:'',type:'',price:'',cap:'',fav:0};render()">Clear filters</button></div><div><div id="res" class="grid"></div></div></div></section>`}
+function draw(){const r=$("#res");if(!r)return;const q=F.q.toLowerCase(),[lo,hi]=F.price?F.price.split("-").map(Number):[0,9e9];
+const a=S.venues.filter(v=>(!q||(v.name+v.loc+v.type).toLowerCase().includes(q))&&(!F.loc||v.loc==F.loc)&&(!F.type||v.type==F.type)&&v.price>=lo&&v.price<=hi&&(!F.cap||v.cap>=F.cap)&&(!F.fav||S.favs.includes(v.id)));
+r.innerHTML=a.length?a.map(v=>vcard(v)).join(""):`<div class="empty" style="grid-column:1/-1">No venues match these filters. Try widening your search.</div>`}
+
+function detail(id){const v=V(id);if(!v)return `<div class="empty">Venue not found.</div>`;
+const days=Array.from({length:21},(_,i)=>{const d=new Date();d.setDate(d.getDate()+i);return d.toISOString().slice(0,10)});
+return `<section style="padding:36px 0"><div class="wrap"><a class="mut" style="cursor:pointer" onclick="go('venues')">← All venues</a><div class="gallery" style="margin-top:14px">${[0,1,2].map(i=>`<div class="ph">${art(v,i)}</div>`).join("")}</div>
+<div class="two"><div><h1 style="font-size:46px;color:var(--navy)">${esc(v.name)}</h1><div class="loc">📍 ${esc(v.loc)} · ${esc(v.type)} · <span class="stars">★ ${v.rating}</span> (${v.rev} reviews)</div><div class="box" style="margin-top:20px"><h3>Facilities</h3><p><span class="tag">👥 Up to ${v.cap} guests</span>${v.fac.map(x=>`<span class="tag">✔ ${esc(x)}</span>`).join("")}</p></div>
+<div class="box"><h3>Available dates (next 3 weeks)</h3><p class="mut">Crossed-out dates are fully booked.</p><div class="dates">${days.map(d=>`<span class="d ${dayFull(v,d)?"x":""}">${new Date(d).toLocaleDateString("en-IN",{day:"numeric",month:"short"})}</span>`).join("")}</div></div>
+<div class="box"><h3>Customer reviews</h3>${REV.map(r=>`<p><span class="stars">${"★".repeat(r[2])}</span> <b>${r[0]}</b><br>${r[1]}</p>`).join("")}</div></div>
+<div><div class="box" style="position:sticky;top:84px"><div class="price" style="font-size:34px">${inr(v.price)}</div><p class="mut">per event</p><button class="btn" style="width:100%;margin-bottom:10px" onclick="go('book-${v.id}')">Book This Venue</button><button class="btn o" style="width:100%" onclick="fav(${v.id})">${S.favs.includes(v.id)?"❤️ Saved":"🤍 Save to favourites"}</button></div></div></div></div></section>`}
+
+function book(id){const v=V(id)||S.venues[0];return `<section style="padding:36px 0"><div class="wrap" style="max-width:760px"><div class="title"><h2>Book ${esc(v.name)}</h2><p>${esc(v.loc)} · ${inr(v.price)} per event</p></div><form class="box" onsubmit="submitB(event)" novalidate><div class="fg">
+<div><label>Full name</label><input id="bn" required></div><div><label>Email address</label><input id="be" type="email" required></div>
+<div><label>Mobile number</label><input id="bm" inputmode="tel" required placeholder="10-digit number"></div><div><label>Event type</label><select id="bt">${opts(EV)}</select></div>
+<div><label>Selected venue</label><select id="bv">${S.venues.map(x=>`<option value="${x.id}"${x.id==v.id?" selected":""}>${esc(x.name)}</option>`).join("")}</select></div><div><label>Event date</label><input id="bd" type="date" min="${today()}" value="${sessionStorage.vbd||""}" required></div>
+<div><label>Preferred time slot</label><select id="bs">${SLOTS.map(s=>`<option>${s}</option>`).join("")}</select></div><div><label>Number of guests</label><input id="bg" type="number" min="1" value="${F.cap||""}" required></div>
+<div class="full"><label>Additional requirements</label><textarea id="br" rows="3" placeholder="Decoration theme, catering preferences…"></textarea></div></div><button class="btn" style="margin-top:18px;width:100%">Confirm Booking Request</button></form></div></section>`}
+function submitB(e){e.preventDefault();const g=i=>$("#"+i).value.trim(),v=V(g("bv"));
+if(!g("bn")||!/^\S+@\S+\.\S+$/.test(g("be"))||!/^[6-9]\d{9}$/.test(g("bm").replace(/\D/g,"").slice(-10))||!g("bd")||+g("bg")<1)return toast("Please complete every field with valid details.");
+if(+g("bg")>v.cap)return toast("This venue holds up to "+v.cap+" guests.");
+if(v.blocked.includes(g("bd")))return toast("The venue is unavailable on that date. Please pick another.");
+if(busy(v.id,g("bd"),g("bs")))return toast("That slot is already reserved. Choose a different date or time slot.");
+const b={ref:"VB"+Date.now().toString(36).toUpperCase().slice(-6),vid:v.id,name:g("bn"),email:g("be"),mobile:g("bm"),type:g("bt"),date:g("bd"),slot:g("bs"),guests:+g("bg"),req:g("br"),status:"Pending",amt:v.price};
+S.bookings.push(b);save();sessionStorage.vbd="";conf(b);toast("Confirmation sent to "+b.email)}
+function conf(b){const v=V(b.vid)||{name:"Venue"};$("#app").innerHTML=`<section><div class="wrap"><div class="box conf"><div style="font-size:56px">🎉</div><h2 style="color:var(--navy)">Booking Request Received</h2><p class="mut">Your booking reference</p><div class="ref">${b.ref}</div><p style="text-align:left"><b>Venue:</b> ${esc(v.name)}<br><b>Date:</b> ${b.date}<br><b>Time:</b> ${b.slot}<br><b>Event:</b> ${esc(b.type)} · ${b.guests} guests<br><b>Name:</b> ${esc(b.name)}<br><b>Status:</b> <span class="st">Pending approval</span></p><button class="btn" onclick="go('bookings')">View My Bookings</button></div></div></section>`;scrollTo(0,0)}
+
+function bookings(){const l=S.bookings.filter(b=>tab=="up"?b.date>=today()&&b.status!="Cancelled"&&b.status!="Rejected":!(b.date>=today()&&b.status!="Cancelled"&&b.status!="Rejected"));
+return `<div class="pagehead"><h1>My Bookings</h1></div><section style="padding:36px 0"><div class="wrap"><div class="tabs"><button class="${tab=="up"?"on":""}" onclick="tab='up';render()">Upcoming</button><button class="${tab=="h"?"on":""}" onclick="tab='h';render()">Booking history</button></div><div class="box sw">${l.length?`<table><tr><th>Ref</th><th>Venue</th><th>Date &amp; slot</th><th>Guests</th><th>Status</th><th></th></tr>${l.map(b=>`<tr><td><b>${b.ref}</b></td><td>${esc((V(b.vid)||{name:"Removed venue"}).name)}</td><td>${b.date}<br><span class="mut">${b.slot}</span></td><td>${b.guests}</td><td><span class="st ${b.status}">${b.status}</span></td><td>${tab=="up"?`<button class="btn red sm" onclick="setS('${b.ref}','Cancelled')">Cancel</button>`:""}</td></tr>`).join("")}</table>`:`<div class="empty">Nothing here yet. <a style="color:var(--navy);text-decoration:underline;cursor:pointer" onclick="go('venues')">Find a venue</a></div>`}</div></div></section>`}
+function setS(ref,s){if(s=="Cancelled"&&!confirm("Cancel this booking?"))return;S.bookings.find(b=>b.ref==ref).status=s;save();toast("Booking "+ref+" "+s.toLowerCase());render()}
+
+function adminP(){if(!admin){const p=prompt("Admin password (demo: admin123)");if(p=="admin123")admin=true;else return `<div class="empty">Admin access required. <button class="btn sm" onclick="render()">Try again</button></div>`}
+const ap=S.bookings.filter(b=>b.status=="Approved");
+return `<div class="pagehead"><h1>Admin Dashboard</h1></div><section style="padding:36px 0"><div class="wrap"><div class="stats"><div class="stat"><b>${S.venues.length}</b>Venues</div><div class="stat"><b>${S.bookings.length}</b>Total bookings</div><div class="stat"><b>${S.bookings.filter(b=>b.status=="Pending").length}</b>Pending</div><div class="stat"><b>${ap.length}</b>Approved</div><div class="stat"><b>${inr(ap.reduce((a,b)=>a+b.amt,0))}</b>Revenue</div></div>
+<div class="tabs">${[["b","Bookings"],["v","Venues"],["a","Availability"]].map(t=>`<button class="${vtab==t[0]?"on":""}" onclick="vtab='${t[0]}';render()">${t[1]}</button>`).join("")}</div>
+${vtab=="b"?`<div class="box sw">${S.bookings.length?`<table><tr><th>Ref</th><th>Customer</th><th>Venue</th><th>Date &amp; slot</th><th>Status</th><th>Action</th></tr>${S.bookings.map(b=>`<tr><td><b>${b.ref}</b></td><td>${esc(b.name)}<br><span class="mut">${esc(b.email)} · ${esc(b.mobile)}</span></td><td>${esc((V(b.vid)||{name:"—"}).name)}</td><td>${b.date}<br><span class="mut">${b.slot}</span></td><td><span class="st ${b.status}">${b.status}</span></td><td>${b.status=="Pending"?`<button class="btn sm" onclick="setS('${b.ref}','Approved')">Approve</button> <button class="btn red sm" onclick="setS('${b.ref}','Rejected')">Reject</button>`:""}</td></tr>`).join("")}</table>`:`<div class="empty">No bookings yet.</div>`}</div>`:""}
+${vtab=="v"?`<div class="box"><h3 id="ft">Add a venue</h3><form onsubmit="saveV(event)"><input type="hidden" id="vid"><div class="fg" style="margin-top:12px"><div><label>Name</label><input id="vn" required></div><div><label>Location</label><input id="vl" required></div><div><label>Type</label><select id="vt">${opts(CATS.map(c=>c[0]))}</select></div><div><label>Price per event (₹)</label><input id="vp" type="number" min="0" required></div><div><label>Max guests</label><input id="vc" type="number" min="1" required></div><div><label>Venue image</label><input id="vi" type="file" accept="image/*"></div><div class="full"><label>Facilities (comma separated)</label><input id="vf" value="Parking, Catering, Decoration, Air Conditioning, Music / DJ"></div></div><button class="btn" style="margin-top:14px">Save venue</button></form></div>
+<div class="box sw"><table><tr><th>Venue</th><th>Location</th><th>Price</th><th>Cap.</th><th></th></tr>${S.venues.map(v=>`<tr><td>${esc(v.name)}</td><td>${esc(v.loc)}</td><td>${inr(v.price)}</td><td>${v.cap}</td><td><button class="btn o sm" onclick="editV(${v.id})">Edit</button> <button class="btn red sm" onclick="delV(${v.id})">Delete</button></td></tr>`).join("")}</table></div>`:""}
+${vtab=="a"?`<div class="box"><h3>Block a date</h3><div class="fg" style="margin:12px 0"><div><label>Venue</label><select id="av">${S.venues.map(v=>`<option value="${v.id}">${esc(v.name)}</option>`).join("")}</select></div><div><label>Date</label><input id="ad" type="date" min="${today()}"></div></div><button class="btn sm" onclick="blk()">Mark unavailable</button></div><div class="box">${S.venues.map(v=>`<p><b>${esc(v.name)}</b>: ${v.blocked.length?v.blocked.map(d=>`<span class="tag">${d} <a style="cursor:pointer" onclick="unblk(${v.id},'${d}')">✕</a></span>`).join(""):`<span class="mut">No blocked dates</span>`}</p>`).join("")}</div>`:""}</div></section>`}
+function saveV(e){e.preventDefault();const g=i=>$("#"+i).value.trim(),id=g("vid"),f=$("#vi").files[0];
+const fin=img=>{let v=id?V(id):{id:Date.now(),rating:4.5,rev:0,e:"✨",c:["#f3e2b3","#1b2c52"],blocked:[]};Object.assign(v,{name:g("vn"),loc:g("vl"),type:g("vt"),price:+g("vp"),cap:+g("vc"),fac:g("vf").split(",").map(s=>s.trim()).filter(Boolean)});if(img)v.img=img;if(!id)S.venues.push(v);save();toast("Venue saved");render()};
+if(!f)return fin();const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement("canvas"),k=Math.min(1,800/im.width);c.width=im.width*k;c.height=im.height*k;c.getContext("2d").drawImage(im,0,0,c.width,c.height);fin(c.toDataURL("image/jpeg",.75))};im.src=r.result};r.readAsDataURL(f)}
+function editV(id){const v=V(id);$("#ft").textContent="Edit venue";$("#vid").value=id;$("#vn").value=v.name;$("#vl").value=v.loc;$("#vt").value=v.type;$("#vp").value=v.price;$("#vc").value=v.cap;$("#vf").value=v.fac.join(", ");scrollTo(0,0)}
+function delV(id){if(confirm("Delete this venue?")){S.venues=S.venues.filter(v=>v.id!=id);S.favs=S.favs.filter(f=>f!=id);save();render()}}
+function blk(){const v=V($("#av").value),d=$("#ad").value;if(!d)return toast("Choose a date first.");if(!v.blocked.includes(d))v.blocked.push(d);save();toast("Date blocked");render()}
+function unblk(id,d){const v=V(id);v.blocked=v.blocked.filter(x=>x!=d);save();render()}
+
+function about(){return `<div class="pagehead"><h1>About VenueBook</h1></div><section><div class="wrap" style="max-width:780px"><p style="font-size:19px">VenueBook makes it easy to find a space that fits your story. From grand palace weddings to intimate rooftop birthdays and sharp boardroom meetings, we list trusted venues, show real availability and confirm your booking in minutes.</p><div class="stats" style="margin-top:30px"><div class="stat"><b>500+</b>Venues</div><div class="stat"><b>12k</b>Events hosted</div><div class="stat"><b>4.8★</b>Average rating</div></div></div></section>`}
+function contact(){const q=[["How do I book a venue?","Open a venue, choose Book This Venue, fill in the form and submit. You get a reference number straight away."],["Can I cancel a booking?","Yes. Open My Bookings and press Cancel on any upcoming booking."],["How is double-booking prevented?","Each venue can hold only one active booking per date and time slot, so taken slots are rejected."],["When is my booking confirmed?","New requests are Pending until the venue team approves them. You can track the status in My Bookings."],["Which events can I book for?","Weddings, birthdays, corporate meetings, engagements, college events and more."]];
+return `<div class="pagehead"><h1>Contact Us</h1></div><section><div class="wrap two" style="margin-top:0"><div><form class="box" onsubmit="event.preventDefault();toast('Thanks! We will reply within one working day.');this.reset()"><div class="fg"><div><label>Name</label><input required></div><div><label>Email</label><input type="email" required></div><div class="full"><label>Message</label><textarea rows="5" required></textarea></div></div><button class="btn" style="margin-top:14px">Send message</button></form><div class="box">📍 12 MI Road, Jaipur, Rajasthan 302001<br>📞 +91 98765 43210<br>✉️ hello@venuebook.in</div></div><div><h2 style="margin-bottom:14px;color:var(--navy)">FAQ</h2>${q.map(x=>`<details><summary>${x[0]}</summary><p class="mut">${x[1]}</p></details>`).join("")}</div></div></section>`}
+
+function render(){const h=(location.hash||"#home").slice(1),[r,id]=h.split("-");let o;
+if(r=="venues")o=venues();else if(r=="venue")o=detail(id);else if(r=="book")o=book(id);else if(r=="bookings")o=bookings();else if(r=="admin")o=adminP();else if(r=="about")o=about();else if(r=="contact")o=contact();else o=home();
+$("#app").innerHTML=o;$("#fc").textContent=S.favs.length;document.querySelectorAll(".links a[data-r]").forEach(a=>a.classList.toggle("on",a.dataset.r==(r=="venue"||r=="book"?"venues":r)));document.querySelector(".links").classList.remove("open");if(r=="venues")draw()}
+addEventListener("hashchange",render);render();
+</script></body></html>
